@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 映射器名字空间，即类的全限定名称(即接口的完整名称) -->
+<mapper namespace="com.cqcj.mapper.InstructorMapper">
+
+    <select id="selectBydept" resultType="com.cqcj.entity.Score">
+        select score.*,user.`name`
+            from score INNER JOIN user
+            on user.`deptId` = #{deptId}
+            and score.`code`=user.`code`
+    </select>
+
+    <select id="selectBydeptPage" resultType="com.cqcj.entity.Score">
+        select score.*,user.`name`
+            from score INNER JOIN user
+            on user.`deptId` = #{deptId}
+            and score.`code`=user.`code`
+            limit #{offset},#{pageSize}
+    </select>
+
+    <select id="selectNumBydept" resultType="java.lang.Integer">
+        select count(*)
+            from user INNER JOIN score
+            where user.deptId = #{deptId}
+            and`user`.`code` = score.`code`
+    </select>
+
+    <select id="selectScoreByCode" resultType="com.cqcj.entity.Score">
+        select score.*,user.`name`
+            from score INNER JOIN user
+            on user.code = #{code}
+            and score.`code`=user.`code`
+    </select>
+
+    <select id="selectScoreByCourseName" resultType="com.cqcj.entity.Score">
+        select score.*,user.`name`
+            from score INNER JOIN user
+            on score.courseName = #{courseName}
+            and user.deptId = #{deptId}
+            and score.`code`=user.`code`
+    </select>
+
+    <insert id="insertScore" parameterType="com.cqcj.entity.Score" useGeneratedKeys="true" keyProperty="id">
+        insert into score
+            (code,courseName,score,semester)
+        values
+            (#{code},#{courseName},#{score},#{semester})
+    </insert>
+
+    <delete id="deleteScoreBycodeAndcourseName">
+        delete from score where code = #{code} and courseName = #{courseName}
+    </delete>
+
+    <update id="updateScoreByid">
+        update score set code=#{code}
+                      ,courseName=#{courseName}
+                      ,score=#{score}
+                      ,semester=#{semester}
+        where id = #{id}
+    </update>
+</mapper>

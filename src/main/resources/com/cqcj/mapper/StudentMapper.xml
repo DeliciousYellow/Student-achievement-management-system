@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 映射器名字空间，即类的全限定名称(即接口的完整名称) -->
+<mapper namespace="com.cqcj.mapper.StudentMapper">
+
+    <select id="selectBycode" resultType="com.cqcj.entity.Score">
+        select score.*,user.`name`
+            from score INNER JOIN user
+            on score.`code`=user.`code`
+            and user.`code` = #{code}
+    </select>
+
+    <select id="selectBycodePage" resultType="com.cqcj.entity.Score">
+        select score.*,user.`name`
+            from score
+            INNER JOIN user
+            on score.`code`=user.`code`
+            and user.`code` = #{code}
+            limit #{offset},#{pageSize}
+    </select>
+
+    <select id="selectNumByCode" resultType="java.lang.Integer">
+        select count(*) from score where code = #{code}
+    </select>
+
+    <select id="selectExcellentByCode" resultType="com.cqcj.entity.Score">
+        select * from score where score >= 90 and code = #{Code}
+    </select>
+
+    <select id="selectFailByCode" resultType="com.cqcj.entity.Score">
+        select * from score where score &lt; 60 and code = #{Code}
+    </select>
+</mapper>

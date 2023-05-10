@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebContextManager">
+    <option name="state">
+      <map>
+        <entry key="file://$PROJECT_DIR$/web/WEB-INF/jsp/adminPage.jsp" value="file://$PROJECT_DIR$/web/WEB-INF/jsp" />
+        <entry key="file://$PROJECT_DIR$/web/WEB-INF/jsp/homePage.jsp" value="file://$PROJECT_DIR$/web/WEB-INF/jsp" />
+        <entry key="file://$PROJECT_DIR$/web/WEB-INF/jsp/homepage.jsp" value="file://$PROJECT_DIR$/web" />
+        <entry key="file://$PROJECT_DIR$/web/WEB-INF/jsp/index.html" value="file://$PROJECT_DIR$/web" />
+        <entry key="file://$PROJECT_DIR$/web/WEB-INF/jsp/index.jsp" value="file://$PROJECT_DIR$/web/WEB-INF/jsp" />
+        <entry key="file://$PROJECT_DIR$/web/WEB-INF/jsp/login.jsp" value="file://$PROJECT_DIR$/web" />
+        <entry key="file://$PROJECT_DIR$/web/WEB-INF/jsp/loginPage.jsp" value="file://$PROJECT_DIR$/web" />
+        <entry key="file://$PROJECT_DIR$/web/WEB-INF/jsp/studentPage.jsp" value="file://$PROJECT_DIR$/web/WEB-INF/jsp" />
+        <entry key="file://$PROJECT_DIR$/web/WEB-INF/jsp/userPage.jsp" value="file://$PROJECT_DIR$/web/WEB-INF/jsp" />
+      </map>
+    </option>
+  </component>
+</project>

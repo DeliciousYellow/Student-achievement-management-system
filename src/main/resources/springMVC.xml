@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           https://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/mvc
+                           https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <!--组件扫描-->
+    <context:component-scan base-package="com.cqcj"/>
+    <!--引入外部属性配置文件-->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+
+
+    <!--数据源-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+    <!--配置SqlSessionFactortyBean-->
+    <bean class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--注入数据源-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--指定mybatis核心配置文件-->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <!--指定别名-->
+        <!--        <property name="typeAliasesPackage" ref=""/>-->
+    </bean>
+    <!--Mapper扫描配置器，主要扫描Mapper接口，生成代理类-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.cqcj.mapper"/>
+    </bean>
+
+<!--    &lt;!&ndash; 文件上传 &ndash;&gt;-->
+<!--    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
+<!--        &lt;!&ndash; 最大上传文件大小5m 5*1024*1024字节 &ndash;&gt;-->
+<!--        <property name="maxUploadSize" value="5242880"/>-->
+<!--        <property name="defaultEncoding" value="UTF-8"/>-->
+<!--        <property name="maxUploadSizePerFile" value="5242880"/>-->
+<!--    </bean>-->
+    <!--可以设置事务管理器-->
+
+    <!--添加处理器映射器-->
+    <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+    <!--添加处理器适配器-->
+    <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
+    <!--    视图解析器-->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--视图前缀-->
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <!--视图后缀-->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <!-- 文件上传 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 最大上传文件大小5m 5*1024*1024字节 -->
+        <property name="maxUploadSize" value="5242880"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="maxUploadSizePerFile" value="5242880"/>
+    </bean>
+    <!--全部静态资源放行,交给servlet处理-->
+    <mvc:default-servlet-handler/>
+
+    <!--json结果类型转换为自动结果类型转换-->
+    <mvc:annotation-driven/>
+
+    <!--拦截器-->
+    <mvc:interceptors>
+        <!--登录拦截-->
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/"/>
+            <mvc:exclude-mapping path="/login"/>
+            <mvc:exclude-mapping path="/checklogin"/>
+            <mvc:exclude-mapping path="/captcha"/>
+            <mvc:exclude-mapping path="/checkCaptcha"/>
+            <bean class="com.cqcj.interceptor.LoginInterceptor"></bean>
+        </mvc:interceptor>
+        <!--增删改查操作拦截-->
+        <mvc:interceptor>
+            <mvc:mapping path="/instructor/**"/>
+            <bean class="com.cqcj.interceptor.InstructorInterceptor"></bean>
+        </mvc:interceptor>
+        <!--教务处全局查询拦截-->
+    </mvc:interceptors>
+
+</beans>
